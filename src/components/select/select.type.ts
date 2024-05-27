@@ -5,6 +5,10 @@ export type TSelectOption = {
   selected?: boolean;
 };
 
+export type TSelectOptionWithId = TSelectOption & {
+  id: number;
+};
+
 export type TSelectOnChangeLabelParam = string[] | string;
 
 export type TSelect = {
