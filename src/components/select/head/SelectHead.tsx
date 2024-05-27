@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import ClearButton from '../actions/ClearButton';
+import ClearButton from '../ClearButton';
 import Label from '../label/Label';
 
 const SelectHead: FC = () => {
