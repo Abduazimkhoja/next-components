@@ -1,7 +1,20 @@
-import { FC } from 'react'
+import { FC } from 'react';
+import { useSelectContext } from './context/SelectContext';
+import { cn } from './select-utils';
 
 const ClearButton: FC = () => {
-    return <div></div>
-}
+  const { optionActions } = useSelectContext();
+  const clearButtonClass = cn('select__clear');
 
-export default ClearButton
+  return (
+    <button
+      onClick={(event) => {
+        event.stopPropagation();
+        optionActions.clear();
+      }}
+      className={clearButtonClass}
+    ></button>
+  );
+};
+
+export default ClearButton;
