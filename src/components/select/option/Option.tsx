@@ -4,10 +4,8 @@ import { TOption } from './option.type';
 import { cn } from '../select-utils';
 
 const Option: FC<TOption> = ({ option }) => {
-  const { optionActions, isMultiple, isOpen } = useSelectContext();
+  const { optionActions, isMultiple } = useSelectContext();
   const isActive = optionActions.isSelect(option);
-  console.log(isOpen);
-  
 
   const optionClass = cn(
     'select__option',
@@ -16,14 +14,13 @@ const Option: FC<TOption> = ({ option }) => {
   );
 
   const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
+    event.stopPropagation();
     optionActions.toggle({ event, option, isMultiple });
   };
 
   return (
     <li onClick={handleClick} className={optionClass}>
-      <button disabled={option.disabled}>
-        {option.label}
-      </button>
+      {option.label}
     </li>
   );
 };
