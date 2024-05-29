@@ -1,7 +1,6 @@
-import { Dispatch, ReactNode, SetStateAction } from 'react';
-import { TPicked } from '../container/SelectContainer';
-import { TSelect, TSelectOptionWithId } from '../select.type';
+import { ChangeEvent, ReactNode } from 'react';
 import { TOptionActionsObject } from '../actions/option/option-actions.type';
+import { TSelect, TSelectOptionWithId } from '../select.type';
 
 export type TSelectContextProvider = {
   children: ReactNode;
@@ -9,6 +8,10 @@ export type TSelectContextProvider = {
 };
 
 export type TSelectContext = {
+  searchOptions: TSelectOptionWithId[];
+  handelSearchOptions: (event: ChangeEvent<HTMLInputElement>) => void;
+  isMultiple?: boolean;
+  picked: TSelectOptionWithId[];
   optionActions: TOptionActionsObject;
   isOpen: boolean;
   toggleDropdown: () => void;
