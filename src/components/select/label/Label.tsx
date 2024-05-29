@@ -1,29 +1,20 @@
-import { FC, ReactNode } from 'react';
-import './Label.scss';
+import { FC } from 'react';
+import { TLabel } from './label.type';
+import { useSelectContext } from '../context/SelectContext';
+import { cn } from '../select-utils';
 
-export type TLabel = {
-  label: string;
-};
+const Label: FC<TLabel> = ({ option }) => {
+  const { isMultiple, optionActions } = useSelectContext();
 
-const Label: FC<TLabel> = ({ label }) => {
+  const labelClass = cn(
+    'select__label',
+    isMultiple ? 'select__label-multiple' : '',
+  );
   return (
-    <div className='label label-multiple'>
-      <input type='text' readOnly placeholder='select' defaultValue={label} />
-      <button onClick={() => {}}>&times;</button>
+    <div className={labelClass}>
+      <span>{option.label}</span>
+      <button onClick={() => optionActions.delete(option)}>&times;</button>
     </div>
-    // <span data-placeholder={placeholder} className='label'>
-    //   {multiple && Array.isArray(selectLabels)
-    //     ? selectLabels.map((label) => (
-    //         <button key={label} className={styles['multi__label']}>
-    //           {label}
-    //           <span
-    //             onClick={() => handleOption()}
-    //             className={styles['multi__label-remove']}
-    //           ></span>
-    //         </button>
-    //       ))
-    //     : selectLabels}
-    // </span>
   );
 };
 
