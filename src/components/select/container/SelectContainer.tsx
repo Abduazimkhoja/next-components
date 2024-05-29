@@ -1,32 +1,36 @@
-import { FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { optionActions } from '../actions/option/option-actions';
 import SelectContextProvider from '../context/SelectContext';
 import { TSelectContext } from '../context/selectContext.type';
 import { cn } from '../select-utils';
 import { TSelectOptionWithId } from '../select.type';
-import './SelectContainer.scss';
 import { TSelectContainer } from './select-container.type';
-
-export type TPicked = TSelectOptionWithId[];
-
-export type TTogglePicked = (
-  option: TSelectOptionWithId,
-  event: MouseEvent,
-  isMultiple?: boolean,
-) => void;
 
 const SelectContainer: FC<TSelectContainer> = ({
   children,
-  options,
   onChange,
   className,
+  optionsWithId,
+  pickedOptions,
+  isMultiple,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [picked, setPicked] = useState<TPicked>([]);
-  const optionsWithId = options?.map((item, index) => ({
-    ...item,
-    id: index + 1,
-  }));
+  const [picked, setPicked] = useState<TSelectOptionWithId[]>(pickedOptions);
+  const [searchOptions, setSearchOptions] =
+    useState<TSelectOptionWithId[]>(optionsWithId);
+
+  const handelSearchOptions: TSelectContext['handelSearchOptions'] = ({
+    target,
+  }) => {
+    const optionSearch = optionsWithId.filter(({ label }) =>
+      label.toLowerCase().includes(target.value.toLowerCase()),
+    );
+    setSearchOptions(optionSearch);
+  };
+
+  useEffect(() => {
+    onChange(picked.map(({ label }) => label));
+  }, [picked]);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
   const closeDropdown = () => setIsOpen(false);
@@ -36,22 +40,34 @@ const SelectContainer: FC<TSelectContainer> = ({
     { isOpen, setIsOpen },
   );
 
-  const containerClass = cn('select', 'select-var', className || '');
+  const containerClass = cn(
+    'select-normalize',
+    'select',
+    'select__container',
+    'select-var',
+    isMultiple ? 'select-multiple' : '',
+    'focus-visible',
+    className || '',
+  );
 
   const contextValue: TSelectContext = {
+    searchOptions,
+    handelSearchOptions,
+    picked,
     optionActions: optionActionsObject,
     optionsWithId,
     isOpen,
     onChange,
     toggleDropdown,
     closeDropdown,
+    isMultiple,
   };
 
   return (
     <SelectContextProvider value={contextValue}>
       <div
-        onClick={toggleDropdown}
         onBlur={closeDropdown}
+        onClick={toggleDropdown}
         tabIndex={0}
         aria-label='select'
         className={containerClass}
