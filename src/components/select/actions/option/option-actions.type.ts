@@ -1,5 +1,4 @@
 import { Dispatch, MouseEvent, SetStateAction } from 'react';
-// import { TPicked } from '../../container/SelectContainer';
 import { TSelectOptionWithId } from '../../select.type';
 
 type TDelete = (option: TSelectOptionWithId) => void;
