@@ -16,5 +16,5 @@ export type TSelect = {
   placeholder?: string;
   defaultValueIndex?: number;
   onChange: (label: TSelectOnChangeLabelParam) => void;
-  multiple?: boolean;
+  isMultiple?: boolean;
 };
