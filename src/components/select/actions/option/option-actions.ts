@@ -7,7 +7,6 @@ export const optionActions: TOptionActions = (
   const clearPicked: TOptionActionsObject['clear'] = () => setPicked([]);
 
   const isSelect: TOptionActionsObject['isSelect'] = (option) => {
-    // isPicked
     return picked.some((item) => item.id === option.id);
   };
   const deletePicked: TOptionActionsObject['delete'] = (option) => {
@@ -19,13 +18,16 @@ export const optionActions: TOptionActions = (
     option,
     isMultiple,
   }) => {
-    if (option.disabled) return event.stopPropagation();
+    if (option.disabled) return null;
+    event.stopPropagation();
     if (isMultiple) {
-      if (isSelect(option)) deletePicked(option);
-      else setPicked((prev) => [...prev, option]);
+      isSelect(option)
+        ? deletePicked(option)
+        : setPicked((prev) => [...prev, option]);
     } else {
-      if (option.id === picked[0].id) setPicked([]);
-      else setPicked([option]);
+      option.id === picked[0].id || picked.length > 1
+        ? setPicked([])
+        : setPicked([option]);
       setIsOpen(false);
     }
   };
