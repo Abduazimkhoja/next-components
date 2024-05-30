@@ -138,12 +138,10 @@
   }
 
   &__menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
     display: none;
     width: 100%;
+    max-height: 12em;
+
     position: absolute;
     top: calc(100% + 0.25rem);
     left: 0;
@@ -155,6 +153,20 @@
 
     border: 1px solid var(--color-border);
     overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 4px; /* Ширина полосы прокрутки */
+    }
+
+    &::-webkit-scrollbar-track {
+      margin: 5px 0;
+      background-color: transparent; /* Цвет фона полосы прокрутки */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #d1d1d1; /* Цвет полосы прокрутки */
+      border-radius: 4px; /* Радиус закругления углов полосы прокрутки */
+    }
 
     &-show {
       display: block;
@@ -176,7 +188,6 @@
       cursor: no-drop;
     }
     button {
-      
     }
 
     &:hover:not(.select__option-disabled) {
