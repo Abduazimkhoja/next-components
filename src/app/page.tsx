@@ -1,22 +1,27 @@
 'use client';
 import { Select } from '@/components';
+import {
+  TSelect,
+  TSelectOnChangeLabelParam,
+} from '@/components/select/select.type';
 import { optionsData } from '@/data/options-data';
 import { useState } from 'react';
 
 export default function Home() {
-  const [select, setSelect] = useState(
-    optionsData.find((item, index) => (item.selected ? index : false)) || 0,
-  );
+  const [select, setSelect] = useState<TSelectOnChangeLabelParam>([]);
 
-  console.log(select);
-
-  const onChange = () => {
-    // setSelect();
+  const onChange: TSelect['onChange'] = (label) => {
+    setSelect(label);
   };
+
   return (
     <main>
-      <Select onChange={onChange} options={optionsData} />
+      <Select
+        isMultiple
+        onChange={onChange}
+        options={optionsData}
+        placeholder='select'
+      />
     </main>
   );
 }
-24;
