@@ -31,6 +31,7 @@ export const Select: FC<TSelect> = (props) => {
   }, [options]);
 
   const selectConteinerProps = {
+    placeholder,
     optionsWithId,
     pickedOptions,
     onChange,

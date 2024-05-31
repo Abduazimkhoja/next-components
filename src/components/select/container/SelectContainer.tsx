@@ -13,6 +13,7 @@ const SelectContainer: FC<TSelectContainer> = ({
   optionsWithId,
   pickedOptions,
   isMultiple,
+  placeholder
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [picked, setPicked] = useState<TSelectOptionWithId[]>(pickedOptions);
@@ -20,7 +21,7 @@ const SelectContainer: FC<TSelectContainer> = ({
   const [searchOptions, setSearchOptions] =
     useState<TSelectOptionWithId[]>(optionsWithId);
 
-  const handelSearchOptions: TSelectContext['handelSearchOptions'] = ({
+  const handleSearchOptions: TSelectContext['handleSearchOptions'] = ({
     target,
   }) => {
     const optionSearch = optionsWithId.filter(({ label }) =>
@@ -68,8 +69,9 @@ const SelectContainer: FC<TSelectContainer> = ({
   );
 
   const contextValue: TSelectContext = {
+    placeholder,
     searchOptions,
-    handelSearchOptions,
+    handleSearchOptions,
     picked,
     optionActions: optionActionsObject,
     optionsWithId,
