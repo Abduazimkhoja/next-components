@@ -6,7 +6,7 @@ type TIsSelect = (option: TSelectOptionWithId) => boolean;
 
 type TToggle = (props: {
   event: MouseEvent<HTMLDivElement | HTMLButtonElement | HTMLLIElement>;
-  option: TSelectOptionWithId;
+  option: TSelectOptionWithId | undefined;
   isMultiple?: boolean;
 }) => void;
 
