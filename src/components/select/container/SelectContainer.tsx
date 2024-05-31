@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { optionActions } from '../actions/option/option-actions';
 import SelectContextProvider from '../context/SelectContext';
 import { TSelectContext } from '../context/selectContext.type';
@@ -16,6 +16,7 @@ const SelectContainer: FC<TSelectContainer> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [picked, setPicked] = useState<TSelectOptionWithId[]>(pickedOptions);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [searchOptions, setSearchOptions] =
     useState<TSelectOptionWithId[]>(optionsWithId);
 
@@ -34,6 +35,22 @@ const SelectContainer: FC<TSelectContainer> = ({
 
   const toggleDropdown = () => setIsOpen(!isOpen);
   const closeDropdown = () => setIsOpen(false);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      closeDropdown();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, true);
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
+  }, []);
 
   const optionActionsObject = optionActions(
     { picked, setPicked },
@@ -66,7 +83,8 @@ const SelectContainer: FC<TSelectContainer> = ({
   return (
     <SelectContextProvider value={contextValue}>
       <div
-        onBlur={closeDropdown}
+        ref={dropdownRef}
+        // onBlur={closeDropdown}
         onClick={toggleDropdown}
         tabIndex={0}
         aria-label='select'
