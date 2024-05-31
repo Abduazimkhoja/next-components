@@ -194,6 +194,15 @@
       background: var(--color-focus);
     }
   }
+
+  &__notfound {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: auto;
+    user-select: none;
+  }
 }
 
 // Multiple
