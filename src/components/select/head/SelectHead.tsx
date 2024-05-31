@@ -5,7 +5,8 @@ import { useSelectContext } from '../context/SelectContext';
 import Label from '../label/Label';
 
 const SelectHead: FC = () => {
-  const { picked, isMultiple, handelSearchOptions } = useSelectContext();
+  const { picked, isMultiple, handleSearchOptions,placeholder } = useSelectContext();
+  
 
   return (
     <div className='select__head'>
@@ -15,12 +16,16 @@ const SelectHead: FC = () => {
             return <Label key={option.id} option={option}></Label>;
           })}
         <input
-          onChange={handelSearchOptions}
+          onBlur={(e) => {
+            e.target.value = '';
+            handleSearchOptions(e);
+          }}
+          onChange={handleSearchOptions}
           unselectable='on'
           readOnly={!isMultiple}
-          // placeholder='Select'
+          placeholder={placeholder}
           type='search'
-          defaultValue={isMultiple ? '' : picked[0].label}
+          value={isMultiple ? '' : picked[0]?.label || ''}
           autoComplete='off'
           role='combobox'
         />
