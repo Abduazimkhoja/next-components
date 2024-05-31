@@ -1,22 +1,11 @@
 'use client';
-import { ChangeEvent, FC, MouseEvent, useState } from 'react';
+import { FC, MouseEvent } from 'react';
 import ClearButton from '../ClearButton';
 import { useSelectContext } from '../context/SelectContext';
 import Label from '../label/Label';
-import { TSelectOptionWithId } from '../select.type';
 
 const SelectHead: FC = () => {
-  const {
-    picked,
-    isMultiple,
-    toggleDropdown,
-    handelSearchOptions,
-  } = useSelectContext();
-
-  const handleInputClick = (event: MouseEvent<HTMLInputElement>) => {
-    event.stopPropagation();
-    toggleDropdown();
-  };
+  const { picked, isMultiple, handelSearchOptions } = useSelectContext();
 
   return (
     <div className='select__head'>
@@ -27,7 +16,6 @@ const SelectHead: FC = () => {
           })}
         <input
           onChange={handelSearchOptions}
-          onClick={handleInputClick}
           unselectable='on'
           readOnly={!isMultiple}
           // placeholder='Select'
