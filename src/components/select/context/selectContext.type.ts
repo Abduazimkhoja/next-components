@@ -9,7 +9,7 @@ export type TSelectContextProvider = {
 
 export type TSelectContext = {
   searchOptions: TSelectOptionWithId[];
-  handelSearchOptions: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleSearchOptions: (event: ChangeEvent<HTMLInputElement>) => void;
   isMultiple?: boolean;
   picked: TSelectOptionWithId[];
   optionActions: TOptionActionsObject;
@@ -18,4 +18,5 @@ export type TSelectContext = {
   closeDropdown: () => void;
   optionsWithId: TSelectOptionWithId[];
   onChange: TSelect['onChange'];
+  placeholder?: TSelect['placeholder']
 };
