@@ -13,7 +13,8 @@ const SelectContainer: FC<TSelectContainer> = ({
   optionsWithId,
   pickedOptions,
   isMultiple,
-  placeholder
+  placeholder,
+  showSearch,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [picked, setPicked] = useState<TSelectOptionWithId[]>(pickedOptions);
@@ -30,12 +31,21 @@ const SelectContainer: FC<TSelectContainer> = ({
     setSearchOptions(optionSearch);
   };
 
+  const clearSearch = () => {
+    setSearchOptions(optionsWithId);
+  };
+
   useEffect(() => {
     onChange(picked.map(({ label }) => label));
   }, [picked]);
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
   const closeDropdown = () => setIsOpen(false);
+  const toggleDropdown: TSelectContext['toggleDropdown'] = (e) => {
+    const isInput = e.target instanceof HTMLInputElement;
+
+    if (!isInput && isOpen === true) closeDropdown();
+    else setIsOpen(true);
+  };
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -47,9 +57,9 @@ const SelectContainer: FC<TSelectContainer> = ({
   };
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true);
+    document.addEventListener('mousedown', handleClickOutside, true);
     return () => {
-      document.removeEventListener('click', handleClickOutside, true);
+      document.removeEventListener('mousedown', handleClickOutside, true);
     };
   }, []);
 
@@ -69,6 +79,8 @@ const SelectContainer: FC<TSelectContainer> = ({
   );
 
   const contextValue: TSelectContext = {
+    clearSearch,
+    showSearch,
     placeholder,
     searchOptions,
     handleSearchOptions,
@@ -86,7 +98,6 @@ const SelectContainer: FC<TSelectContainer> = ({
     <SelectContextProvider value={contextValue}>
       <div
         ref={dropdownRef}
-        // onBlur={closeDropdown}
         onClick={toggleDropdown}
         tabIndex={0}
         aria-label='select'
