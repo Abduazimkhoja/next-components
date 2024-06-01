@@ -1,12 +1,42 @@
 'use client';
-import { FC, MouseEvent } from 'react';
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import ClearButton from '../ClearButton';
 import { useSelectContext } from '../context/SelectContext';
 import Label from '../label/Label';
 
 const SelectHead: FC = () => {
-  const { picked, isMultiple, handleSearchOptions,placeholder } = useSelectContext();
-  
+  const {
+    picked,
+    isMultiple,
+    handleSearchOptions,
+    placeholder,
+    showSearch,
+    clearSearch,
+  } = useSelectContext();
+
+  const label = picked[0]?.label || '';
+  const [value, setValue] = useState(isMultiple ? '' : label);
+
+  useEffect(() => {
+    setValue(label);
+  }, [picked]);
+
+  const inputAttr = {
+    onBlur: () => {
+      clearSearch();
+      setValue(label);
+    },
+    onFocus: () => {
+      setValue('');
+    },
+    onChange: (e: ChangeEvent<HTMLInputElement>) => {
+      setValue(e.target.value);
+      handleSearchOptions(e);
+    },
+    readOnly: !showSearch,
+    placeholder: label,
+    value: value,
+  };
 
   return (
     <div className='select__head'>
@@ -15,20 +45,7 @@ const SelectHead: FC = () => {
           picked.map((option) => {
             return <Label key={option.id} option={option}></Label>;
           })}
-        <input
-          onBlur={(e) => {
-            e.target.value = '';
-            handleSearchOptions(e);
-          }}
-          onChange={handleSearchOptions}
-          unselectable='on'
-          readOnly={!isMultiple}
-          placeholder={placeholder}
-          type='search'
-          value={isMultiple ? '' : picked[0]?.label || ''}
-          autoComplete='off'
-          role='combobox'
-        />
+        <input unselectable='on' type='search' role='combobox' {...inputAttr} />
       </div>
       <ClearButton />
     </div>
