@@ -6,4 +6,4 @@ export type TSelectContainer = {
   className?: string;
   optionsWithId: TSelectOptionWithId[];
   pickedOptions: TSelectOptionWithId[];
-} & Pick<TSelect, 'onChange' | 'isMultiple' | 'placeholder'>;
+} & Pick<TSelect, 'onChange' | 'isMultiple' | 'placeholder' | 'showSearch'>;

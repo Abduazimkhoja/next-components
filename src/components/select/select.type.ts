@@ -12,6 +12,8 @@ export type TSelectOptionWithId = TSelectOption & {
 export type TSelectOnChangeLabelParam = string[] | string;
 
 export type TSelect = {
+  className?: string,
+  showSearch?:boolean
   options: TSelectOption[];
   placeholder?: string;
   defaultValueIndex?: number;
