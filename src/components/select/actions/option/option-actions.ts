@@ -18,17 +18,15 @@ export const optionActions: TOptionActions = (
     option,
     isMultiple,
   }) => {
-
     if (!option || option.disabled) return null;
     event.stopPropagation();
     if (isMultiple) {
       isSelect(option)
         ? deletePicked(option)
         : setPicked((prev) => [...prev, option]);
-    } else {
-      !!picked.length && (option.id === picked[0].id || picked.length > 1)
-        ? setPicked([])
-        : setPicked([option]);
+    } else if (option.id !== picked[0].id) {
+
+      setPicked([option]);
       setIsOpen(false);
     }
   };
