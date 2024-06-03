@@ -19,6 +19,7 @@ export default function Home() {
       <Select
         isMultiple
         onChange={onChange}
+        showSearch={false}
         options={optionsData}
         placeholder='select'
       />
