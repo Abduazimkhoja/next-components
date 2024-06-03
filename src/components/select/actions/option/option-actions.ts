@@ -25,8 +25,9 @@ export const optionActions: TOptionActions = (
         ? deletePicked(option)
         : setPicked((prev) => [...prev, option]);
     } else if (option.id !== picked[0].id) {
-
       setPicked([option]);
+      setIsOpen(false);
+    } else {
       setIsOpen(false);
     }
   };
