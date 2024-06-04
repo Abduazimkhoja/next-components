@@ -1,6 +1,6 @@
 'use client';
-import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
-import ClearButton from '../ClearButton';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
+import SelectButton from '../ClearButton';
 import { useSelectContext } from '../context/SelectContext';
 import Label from '../label/Label';
 
@@ -18,12 +18,12 @@ const SelectHead: FC = () => {
   const [value, setValue] = useState(isMultiple ? '' : label);
 
   useEffect(() => {
-    setValue(label);
+    setValue(isMultiple ? '' : label);
   }, [picked]);
 
   const inputAttr = {
     onBlur: () => {
-      clearSearch();
+      setTimeout(() => clearSearch(), 100)
       setValue(label);
     },
     onFocus: () => {
@@ -33,8 +33,8 @@ const SelectHead: FC = () => {
       setValue(e.target.value);
       handleSearchOptions(e);
     },
-    readOnly: !showSearch,
-    placeholder: label,
+    readOnly: isMultiple || showSearch ? false : true,
+    placeholder: isMultiple ? '' : label,
     value: value,
   };
 
@@ -47,7 +47,7 @@ const SelectHead: FC = () => {
           })}
         <input unselectable='on' type='search' role='combobox' {...inputAttr} />
       </div>
-      <ClearButton />
+      <SelectButton />
     </div>
   );
 };
