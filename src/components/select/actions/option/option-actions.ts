@@ -19,7 +19,7 @@ export const optionActions: TOptionActions = (
     isMultiple,
   }) => {
     if (!option || option.disabled) return null;
-    event.stopPropagation();
+    event && event.stopPropagation();
     if (isMultiple) {
       isSelect(option)
         ? deletePicked(option)
