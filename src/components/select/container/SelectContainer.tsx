@@ -17,6 +17,7 @@ const SelectContainer: FC<TSelectContainer> = ({
   showSearch,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [highlightIndex, setHighlightIndex] = useState(0);
   const [picked, setPicked] = useState<TSelectOptionWithId[]>(pickedOptions);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [searchOptions, setSearchOptions] =
@@ -68,6 +69,44 @@ const SelectContainer: FC<TSelectContainer> = ({
     { isOpen, setIsOpen },
   );
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.target != dropdownRef.current) return;
+      switch (e.code) {
+        case 'Enter':
+        case 'Space': {
+          setIsOpen((prev) => !prev);
+          if (isOpen)
+            optionActionsObject.toggle({
+              event: e,
+              option: optionsWithId[highlightIndex],
+            });
+          break;
+        }
+        case 'ArrowUp':
+        case 'ArrowDown': {
+          if (!isOpen) {
+            setIsOpen(true);
+            break;
+          }
+          const newValue = highlightIndex + (e.code == 'ArrowDown' ? 1 : -1);
+          if (newValue >= 0 && newValue < optionsWithId.length) {
+            setHighlightIndex(newValue);
+          }
+          break;
+        }
+        case 'Escape': {
+          setIsOpen(false);
+          break;
+        }
+      }
+    };
+    dropdownRef.current?.addEventListener('keydown', handler);
+    return () => {
+      dropdownRef.current?.removeEventListener('keydown', handler);
+    };
+  }, [isOpen, highlightIndex, optionsWithId]);
+
   const containerClass = cn(
     'select-normalize',
     'select',
@@ -79,6 +118,7 @@ const SelectContainer: FC<TSelectContainer> = ({
   );
 
   const contextValue: TSelectContext = {
+    highlightIndex,
     clearSearch,
     showSearch,
     placeholder,

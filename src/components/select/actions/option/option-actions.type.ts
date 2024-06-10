@@ -5,7 +5,7 @@ type TDelete = (option: TSelectOptionWithId) => void;
 type TIsSelect = (option: TSelectOptionWithId) => boolean;
 
 type TToggle = (props: {
-  event: MouseEvent<HTMLDivElement | HTMLButtonElement | HTMLLIElement>;
+  event: MouseEvent<HTMLDivElement | HTMLButtonElement | HTMLLIElement> | KeyboardEvent;
   option: TSelectOptionWithId | undefined;
   isMultiple?: boolean;
 }) => void;

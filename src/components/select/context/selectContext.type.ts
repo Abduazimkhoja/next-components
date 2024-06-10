@@ -8,6 +8,7 @@ export type TSelectContextProvider = {
 };
 
 export type TSelectContext = {
+  highlightIndex: number
   clearSearch: () => void
   searchOptions: TSelectOptionWithId[];
   handleSearchOptions: (event: ChangeEvent<HTMLInputElement>) => void;
