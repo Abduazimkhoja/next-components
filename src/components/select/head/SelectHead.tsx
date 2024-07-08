@@ -1,6 +1,6 @@
 'use client';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import SelectButton from '../ClearButton';
+import SelectButton from '../SelectButton';
 import { useSelectContext } from '../context/SelectContext';
 import Label from '../label/Label';
 

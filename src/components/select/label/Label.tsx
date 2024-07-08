@@ -5,7 +5,7 @@ import { cn } from '../select-utils';
 
 const Label: FC<TLabel> = ({ option }) => {
   const { isMultiple, optionActions } = useSelectContext();
-
+  // chip
   const labelClass = cn(
     'select__label',
     isMultiple ? 'select__label-multiple' : '',
