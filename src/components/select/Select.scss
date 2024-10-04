@@ -1,5 +1,18 @@
-@import "@/styles/media/media-queries";
 @import "./selectNormalize";
+
+@mixin hover-control {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      @content;
+    }
+  }
+}
 
 .select {
   &__container {
@@ -22,11 +35,11 @@
     cursor: pointer;
     box-sizing: border-box;
 
-    &:focus-visible {
-      .select__menu {
-        display: block;
-      }
-    }
+    // &:focus-visible {
+    //   .select__menu {
+    //     display: block;
+    //   }
+    // }
   }
 
   &__head {
@@ -76,7 +89,7 @@
     }
   }
 
-  &__clear {
+  &__button {
     position: relative;
 
     width: 20px;
@@ -118,7 +131,7 @@
       transform: rotateZ(45deg);
     }
 
-    &:hover {
+    &-clear:hover {
       &::before,
       &::after {
         translate: -50% -50%;
@@ -190,7 +203,8 @@
     button {
     }
 
-    &:hover:not(.select__option-disabled) {
+    &:hover:not(.select__option-disabled),
+    &-highlight:not(.select__option-disabled):not(.select__option:hover) {
       background: var(--color-focus);
     }
   }
